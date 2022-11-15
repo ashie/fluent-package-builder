@@ -291,7 +291,7 @@ class BuildTask
       patch_name, version_condition = patch
       dependency = Gem::Dependency.new('', version_condition)
       if dependency.match?('', bundled_ruby_version)
-        patch_path = File.join(__dir__, "patches", patch_name)
+        patch_path = File.join(__dir__, "..", "patches", patch_name)
         sh("patch", "-p1", "--input=#{patch_path}")
       end
     end
@@ -463,7 +463,7 @@ class BuildTask
       patch_name, version_condition = patch
       dependency = Gem::Dependency.new('', version_condition)
       if dependency.match?('', ruby_version)
-        patch_path = File.join(__dir__, "patches", patch_name)
+        patch_path = File.join(__dir__, "..", "patches", patch_name)
         cd(ruby_lib_dir) do
           sh("ridk", "exec", "patch", "-p2", "--input=#{patch_path}")
         end
@@ -688,7 +688,7 @@ class BuildTask
 
   def install_td_agent_license
     ensure_directory(licenses_staging_dir)
-    src = File.join(__dir__, "..", "LICENSE")
+    src = File.join(__dir__, "..", "..", "LICENSE")
     dest = File.join(licenses_staging_dir, "LICENSE-#{PACKAGE_NAME}.txt")
     cp(src, dest)
   end
@@ -696,7 +696,7 @@ class BuildTask
   def install_gemfiles
     ensure_directory(staging_sharedir) do
       ["Gemfile", "Gemfile.lock", "config.rb"].each do |file|
-        source_dir = File.join(__dir__, "..")
+        source_dir = File.join(__dir__, "..", "..")
         src = File.join(source_dir, "#{PACKAGE_NAME}/#{file}")
         dest = File.join(staging_sharedir, file)
         cp(src, dest)
